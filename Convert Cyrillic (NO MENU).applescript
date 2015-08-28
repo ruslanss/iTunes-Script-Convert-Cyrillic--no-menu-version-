@@ -1,34 +1,18 @@
-(*
-Script:
-	Convert Cyrillics for your music files the following fields only: "Name", "Artist", "Album Artist"
-Version:
-	0.5 - "no menu version"
-CahngeLog:
+tell application "iTunes"
 	
-	Merged initial dialogue changes from Teodor Zlatanov -- you can now choose what details require conversion.
-Author:
-	Ruslan Schelkunov (ruslanss@gmail.com) (Contributor)
-	Andrei Popov (ceesaxp@gmail.com)
-
-The issue:
-	ID3 tags that are embedded in MP3 files generated on Windows or (shudder) DOS machines use extended ASCII to store Cyrillics.  When you import such files into iTunes, it assumes that they're all in MacRoman coding page** and happily garbles them up.
-
-The search to solve it:
-	One way to do that is to convert tags *before* importing them into iTunes.  This might work, but I have not tried it, don't know.
-	Another way was to try and fix them once they're in using a `do shell command' call from AppleScript.  No luck there, although iconv -f cp866 -t utf8 *almost* does the right thing.  Almost, but not quite.
-
-Solution:
-	I had to manually recode conversion table, based on MacRoman ASCII page (http://www.iro.umontreal.ca/~felipe/IFT1010-Hiver2005/Complements/ascii.html) viewed as if it were Cyrillic (Mac) page in Camino, then assigning proper UNICODE values to each code point.
-
-Credits:
-	Thanks to StefanK at MacScripter BBS  for helping me sort out a few AppleScript issues.
-	Thanks to Sergii Denega for providing a number of further fixes, most importantly to make script work on both PPC and Intel and fixing the issue with multiple tracks to be convereted.
-	Thanks to Teodor Zlatanov for providing changes that allow choosing what fields/tags should be converted.
-
-----
-** Some say this would not be the case if International pannel lists Russian as first language -- I have not tested that
-
-*)
+	with timeout of 30000 seconds
+		repeat with _track in selection
+			tell _track
+				try
+					set name to my fixCyrillics(get name)
+					set artist to my fixCyrillics(get artist)
+					set album artist to my fixCyrillics(get album artist)
+					set album to my fixCyrillics(get album)
+				end try
+			end tell
+		end repeat
+	end timeout
+end tell
 
 property charCodeMap : {Â
 	"0020", "0020", "0020", "0020", "0020", "0020", "0020", "0020", "0020", "0009", "000A", "0020", "0020", "000D", "0020", "0020", Â
@@ -47,22 +31,6 @@ property charCodeMap : {Â
 	"00D0", "00D1", "0456", "0406", "00D4", "00D5", "0447", "0427", "044F", "00D9", "00DA", "00DB", "0420", "0440", "042E", "044E", Â
 	"044D", "00E1", "00E2", "00E3", "00E4", "0412", "041A", "0411", "041B", "0419", "041D", "041E", "041F", "041C", "0423", "0424", Â
 	"00F0", "0422", "042A", "042B", "0429", "00F5", "00F6", "00F7", "0407", "00F9", "00FA", "00FB", "0451", "00FD", "00FE", "00FF"}
-
-tell application "iTunes"
-	
-	with timeout of 30000 seconds
-		repeat with _track in selection
-			tell _track
-				try
-					set name to my fixCyrillics(get name)
-					set artist to my fixCyrillics(get artist)
-					set album artist to my fixCyrillics(get album artist)
-					set album to my fixCyrillics(get album)
-				end try
-			end tell
-		end repeat
-	end timeout
-end tell
 
 on fixCyrillics(str)
 	set outStr to "" as Unicode text
