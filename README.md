@@ -7,6 +7,7 @@ Script:
 	Convert Cyrillics for your music files the following fields only: "Name", "Artist", "Album Artist", "Album". Based on original script by Andrei Popov
 (https://code.google.com/p/as-convert-russian/source/browse/trunk/Convert+Russian.applescript?r=12)
 Version:
+    0.4 - with special handler for И > Й 
 	0.3 - with added check for characters which are already good cyrillic - to avoid resulting in "??????" cause that was annoying
 Author:
 	Ruslan Schelkunov https://github.com/ruslanss
