@@ -38,7 +38,16 @@ on fixCyrillics(str)
 		set charCode to ASCII number of i
 		set Uni to item (charCode + 1) of charCodeMap
 		set Uni to text 3 thru 4 of Uni & text 1 thru 2 of Uni
-		set outStr to outStr & (run script "Çdata utxt" & Uni & "È" as Unicode text)
+		set Uni to (run script "Çdata utxt" & Uni & "È" as Unicode text)
+		
+		if Uni = "?" then set Uni to i (* revert if failed *)
+		
+		set outStr to outStr & Uni
+		
 	end repeat
 	return outStr
 end fixCyrillics
+
+(* test
+	fixCyrillics("íŒ’˜ pig 2015")
+*)
