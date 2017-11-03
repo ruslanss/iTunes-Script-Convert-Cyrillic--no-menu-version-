@@ -13,6 +13,8 @@ aka Cyrillic Unicode rewriter,  ID3 tag convertor.
 `Ïåñî÷íûå Ëﬂäè - Îñòàâü-Îñòûíü (Feat. Ñêàòî)` с помощью этой утилиты превратиться в 
  `Песочные Люди - Оставь-Остынь (Feat. Скато)`
 
+![iTunes 12](https://pbs.twimg.com/media/DNsydP_W0AA267e.jpg:large)
+
 **Script:**
 	Convert Cyrillics for your music files the following fields only: "Name", "Artist", "Album Artist", "Album". 
 
